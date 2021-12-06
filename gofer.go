@@ -17,9 +17,7 @@ func main() {
 	}
 
 	// loop over all command line arguments
-	for a, arg := range os.Args[1:] {
-		//sorry go, I don't need this variable...
-		_ = a
+	for _, arg := range os.Args[1:] {
 		url := arg
 		server := strings.Split(arg, ":")
 
