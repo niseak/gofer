@@ -12,7 +12,7 @@ import (
 func main() {
 	// make sure we have at least one command line argument
 	if len(os.Args) <= 1 {
-		fmt.Println("Please provide a URL and port to test (ie. google.com:443")
+		fmt.Println("Please provide a URL and port to test (ie. brave.com:443")
 		return
 	}
 
