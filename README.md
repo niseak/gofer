@@ -1,11 +1,13 @@
 # gofer
 gofer is a golang script designed to output the cert information for various websites
 
-## Example run
+## Examples
 You can supply multiple sites with port (ie. :443) as command line arguments
 
+### Successful Examples
+
 ```
-nick$ go run gofer.go brave.com:443 amazon.com:443 namecheap.com:443
+go run gofer.go brave.com:443 amazon.com:443 namecheap.com:443
 --  brave.com  --
 Certificate:
         DNS Name: [brave.com]
@@ -52,5 +54,26 @@ Certificate:
                  CA Issuers - URI:       [http://crt.sectigo.com/SectigoRSAExtendedValidationSecureServerCA.crt]
         SignatureAlgorithm: SHA256-RSA
         PublicKeyAlgorithm: RSA
+--
+```
+
+### Failure examples
+
+```
+go run gofer.go expired.badssl.com:443 wrong.host.badssl.com:443 self-signed.badssl.com:443 incomplete-chain.badssl.com:443
+--  expired.badssl.com  --
+x509: certificate has expired or is not yet valid: current time 2021-12-12T15:31:10-06:00 is after 2015-04-12T23:59:59Z
+--
+
+--  wrong.host.badssl.com  --
+x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com
+--
+
+--  self-signed.badssl.com  --
+x509: certificate signed by unknown authority
+--
+
+--  incomplete-chain.badssl.com  --
+x509: certificate signed by unknown authority
 --
 ```
