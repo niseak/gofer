@@ -59,13 +59,3 @@ func main() {
 		}
 	}
 }
-
-// Error checking function
-//func checkError(err error) {
-//	if err != nil {
-//		//fmt.Fprintf(os.Stderr, "WARN: %s\n", err.Error())
-//		log.Println(err)
-//		//return
-//		//os.Exit(2)
-//	}
-//}
