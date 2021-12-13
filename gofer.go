@@ -21,7 +21,7 @@ func main() {
 		url := arg
 		server := strings.Split(arg, ":")
 
-		// Make connectin, timeout of 30 seconds
+		// Make connection, timeout of 30 seconds
 		conn, err := net.DialTimeout("tcp", url, 30*time.Second)
 		if err != nil {
 			fmt.Println("-- ", url, " --")
