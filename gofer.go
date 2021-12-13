@@ -22,8 +22,9 @@ func main() {
 
 		conn, err := net.Dial("tcp", url)
 		if err != nil {
-			fmt.Println(err)
+			checkError(err)
 		}
+		//defer conn.Close()
 
 		client := tls.Client(conn, &tls.Config{
 			ServerName: (server[0]),
@@ -52,5 +53,14 @@ func main() {
 			fmt.Println("\tPublicKeyAlgorithm:", cert.PublicKeyAlgorithm)
 			fmt.Println("--\n")
 		}
+	}
+}
+
+// Error checking function
+func checkError(err error) {
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Fatal error: \n%s", err.Error())
+		fmt.Println(" ")
+		os.Exit(1)
 	}
 }
