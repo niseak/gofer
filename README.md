@@ -8,7 +8,7 @@ You can supply multiple sites with port (ie. :443) as command line arguments
 
 ```
 go run gofer.go brave.com:443 amazon.com:443 namecheap.com:443
---  brave.com  --
+--  brave.com:443  --
 Certificate:
         DNS Name: [brave.com]
         Serial Number: 337965366830398027248761021639441482885235
@@ -24,7 +24,7 @@ Certificate:
         PublicKeyAlgorithm: RSA
 --
 
---  amazon.com  --
+--  amazon.com:443  --
 Certificate:
         DNS Name: [amazon.co.uk uedata.amazon.co.uk www.amazon.co.uk origin-www.amazon.co.uk *.peg.a2z.com amazon.com amzn.com uedata.amazon.com us.amazon.com www.amazon.com www.amzn.com corporate.amazon.com buybox.amazon.com iphone.amazon.com yp.amazon.com home.amazon.com origin-www.amazon.com origin2-www.amazon.com buckeye-retail-website.amazon.com huddles.amazon.com amazon.de www.amazon.de origin-www.amazon.de amazon.co.jp amazon.jp www.amazon.jp www.amazon.co.jp origin-www.amazon.co.jp *.aa.peg.a2z.com *.ab.peg.a2z.com *.ac.peg.a2z.com origin-www.amazon.com.au www.amazon.com.au *.bz.peg.a2z.com amazon.com.au origin2-www.amazon.co.jp]
         Serial Number: 18953053220451131611646046652406462681
@@ -40,7 +40,7 @@ Certificate:
         PublicKeyAlgorithm: RSA
 --
 
---  namecheap.com  --
+--  namecheap.com:443  --
 Certificate:
         DNS Name: [www.namecheap.com namecheap.com]
         Serial Number: 151405733054384844453721065555891153903
@@ -61,19 +61,23 @@ Certificate:
 
 ```
 go run gofer.go expired.badssl.com:443 wrong.host.badssl.com:443 self-signed.badssl.com:443 incomplete-chain.badssl.com:443
---  expired.badssl.com  --
-x509: certificate has expired or is not yet valid: current time 2021-12-12T15:31:10-06:00 is after 2015-04-12T23:59:59Z
+--  expired.badssl.com:443  --
+x509: certificate has expired or is not yet valid: current time 2021-12-13T16:00:35-06:00 is after 2015-04-12T23:59:59Z
 --
 
---  wrong.host.badssl.com  --
+--  wrong.host.badssl.com:443  --
 x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com
 --
 
---  self-signed.badssl.com  --
+--  self-signed.badssl.com:443  --
 x509: certificate signed by unknown authority
 --
 
---  incomplete-chain.badssl.com  --
+--  incomplete-chain.badssl.com:443  --
 x509: certificate signed by unknown authority
 --
 ```
+
+## Caveats
+* There is a 30 second tcp timeout
+* Script does not handle revoked certs correctly (i.e. no feedback for cert revoked).
