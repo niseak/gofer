@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -20,11 +21,14 @@ func main() {
 		url := arg
 		server := strings.Split(arg, ":")
 
-		conn, err := net.Dial("tcp", url)
+		// Make connectin, timeout of 30 seconds
+		conn, err := net.DialTimeout("tcp", url, 30*time.Second)
 		if err != nil {
-			checkError(err)
+			fmt.Println("-- ", url, " --")
+			fmt.Println(err)
+			fmt.Println("--\n")
+			continue
 		}
-		//defer conn.Close()
 
 		client := tls.Client(conn, &tls.Config{
 			ServerName: (server[0]),
@@ -32,12 +36,12 @@ func main() {
 		defer client.Close()
 
 		if err := client.Handshake(); err != nil {
-			fmt.Println("-- ", server[0], " --")
+			fmt.Println("-- ", url, " --")
 			fmt.Println(err)
 			fmt.Println("--\n")
 		} else {
 			cert := client.ConnectionState().PeerCertificates[0]
-			fmt.Println("-- ", server[0], " --")
+			fmt.Println("-- ", url, " --")
 			fmt.Println("Certificate:")
 			fmt.Println("\tDNS Name:", cert.DNSNames)
 			fmt.Println("\tSerial Number:", cert.SerialNumber)
@@ -57,10 +61,11 @@ func main() {
 }
 
 // Error checking function
-func checkError(err error) {
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Fatal error: \n%s", err.Error())
-		fmt.Println(" ")
-		os.Exit(1)
-	}
-}
+//func checkError(err error) {
+//	if err != nil {
+//		//fmt.Fprintf(os.Stderr, "WARN: %s\n", err.Error())
+//		log.Println(err)
+//		//return
+//		//os.Exit(2)
+//	}
+//}
