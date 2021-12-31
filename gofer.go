@@ -70,5 +70,6 @@ func main() {
 			fmt.Println("\tPublicKeyAlgorithm:", cert.PublicKeyAlgorithm)
 			fmt.Println("--\n")
 		}
+		conn.Close()
 	}
 }
