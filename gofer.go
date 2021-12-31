@@ -12,19 +12,26 @@ import (
 func main() {
 	// make sure we have at least one command line argument
 	if len(os.Args) <= 1 {
-		fmt.Println("Please provide a URL and port to test (ie. brave.com:443)")
+		fmt.Println("Please provide a URL to test\n\tExample: brave.com")
+		fmt.Println("Or to supply a custom tcp port\n\tExample: clients.us2.crashplan.com:4287")
 		return
 	}
 
 	// loop over all command line arguments
 	for _, arg := range os.Args[1:] {
-		url := arg
+
+		// If no port specified, assume :443
+		if !strings.Contains(arg, ":") {
+			arg = arg + ":443"
+		}
+
+		// Get DNS address without port
 		server := strings.Split(arg, ":")
 
 		// Make connection, timeout of 30 seconds
-		conn, err := net.DialTimeout("tcp", url, 30*time.Second)
+		conn, err := net.DialTimeout("tcp", arg, 30*time.Second)
 		if err != nil {
-			fmt.Println("-- ", url, " --")
+			fmt.Println("-- ", arg, " --")
 			fmt.Println(err)
 			fmt.Println("--\n")
 			continue
@@ -36,12 +43,12 @@ func main() {
 		defer client.Close()
 
 		if err := client.Handshake(); err != nil {
-			fmt.Println("-- ", url, " --")
+			fmt.Println("-- ", arg, " --")
 			fmt.Println(err)
 			fmt.Println("--\n")
 		} else {
 			cert := client.ConnectionState().PeerCertificates[0]
-			fmt.Println("-- ", url, " --")
+			fmt.Println("-- ", arg, " --")
 			fmt.Println("Certificate:")
 			fmt.Println("\tDNS Name:", cert.DNSNames)
 			fmt.Println("\tSerial Number:", cert.SerialNumber)
