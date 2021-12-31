@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"crypto/sha1"
 	"crypto/tls"
 	"fmt"
 	"net"
@@ -48,10 +50,21 @@ func main() {
 			fmt.Println("--\n")
 		} else {
 			cert := client.ConnectionState().PeerCertificates[0]
+			fingerprint := sha1.Sum(cert.Raw)
+
+			var buf bytes.Buffer
+			for i, f := range fingerprint {
+				if i > 0 {
+					fmt.Fprintf(&buf, ":")
+				}
+				fmt.Fprintf(&buf, "%02X", f)
+			}
+
 			fmt.Println("-- ", arg, " --")
 			fmt.Println("Certificate:")
 			fmt.Println("\tDNS Name:", cert.DNSNames)
 			fmt.Println("\tSerial Number:", cert.SerialNumber)
+			fmt.Println("\tSHA1 FingerPrint:", buf.String())
 			fmt.Println("\tIssuer:\t", cert.Issuer)
 			fmt.Println("\tValidity:")
 			fmt.Println("\t\tNot Before:\t\t", cert.NotBefore)
@@ -64,5 +77,6 @@ func main() {
 			fmt.Println("\tPublicKeyAlgorithm:", cert.PublicKeyAlgorithm)
 			fmt.Println("--\n")
 		}
+		conn.Close()
 	}
 }
