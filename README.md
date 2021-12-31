@@ -12,6 +12,7 @@ go run gofer.go brave.com central.crashplan.com:4287
 Certificate:
         DNS Name: [brave.com]
         Serial Number: 369484983675259537284761682550997610411307
+        SHA1 FingerPrint: 69:31:E3:30:D5:8F:AC:BB:66:F8:96:36:0B:46:05:4D:C6:1F:71:2D
         Issuer:  CN=R3,O=Let's Encrypt,C=US
         Validity:
                 Not Before:              2021-12-27 20:45:25 +0000 UTC
@@ -28,6 +29,7 @@ Certificate:
 Certificate:
         DNS Name: [*.us2.code42.com *.us2.crashplan.com *.crashplan.com]
         Serial Number: 18083294273383594768584993584401356329
+        SHA1 FingerPrint: A9:E5:02:37:85:8F:C9:53:F9:7D:7E:92:0A:CA:CD:09:7E:06:FD:80
         Issuer:  CN=DigiCert TLS RSA SHA256 2020 CA1,O=DigiCert Inc,C=US
         Validity:
                 Not Before:              2021-05-20 00:00:00 +0000 UTC
