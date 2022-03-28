@@ -60,10 +60,13 @@ func main() {
 				fmt.Fprintf(&buf, "%02X", f)
 			}
 
+			//hex of serial:
+			hser := fmt.Sprintf("%X", cert.SerialNumber)
+
 			fmt.Println("-- ", arg, " --")
 			fmt.Println("Certificate:")
 			fmt.Println("\tDNS Name:", cert.DNSNames)
-			fmt.Println("\tSerial Number:", cert.SerialNumber)
+			fmt.Println("\tSerial Number:", hser)
 			fmt.Println("\tSHA1 FingerPrint:", buf.String())
 			fmt.Println("\tIssuer:\t", cert.Issuer)
 			fmt.Println("\tValidity:")
