@@ -51,6 +51,8 @@ func main() {
 		} else {
 			cert := client.ConnectionState().PeerCertificates[0]
 			fingerprint := sha1.Sum(cert.Raw)
+			// hex of serial:
+			ser := fmt.Sprintf("%X", cert.SerialNumber)
 
 			var buf bytes.Buffer
 			for i, f := range fingerprint {
@@ -60,13 +62,10 @@ func main() {
 				fmt.Fprintf(&buf, "%02X", f)
 			}
 
-			//hex of serial:
-			hser := fmt.Sprintf("%X", cert.SerialNumber)
-
 			fmt.Println("-- ", arg, " --")
 			fmt.Println("Certificate:")
 			fmt.Println("\tDNS Name:", cert.DNSNames)
-			fmt.Println("\tSerial Number:", hser)
+			fmt.Println("\tSerial Number:", ser)
 			fmt.Println("\tSHA1 FingerPrint:", buf.String())
 			fmt.Println("\tIssuer:\t", cert.Issuer)
 			fmt.Println("\tValidity:")
